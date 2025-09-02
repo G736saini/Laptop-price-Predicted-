@@ -1,7 +1,22 @@
 import streamlit as st
-import pickle
 import pandas as pd
 import numpy as np
+
+# Check for required packages
+try:
+    import pickle
+    from sklearn import __version__ as sklearn_version
+    st.sidebar.success(f"scikit-learn {sklearn_version} is installed")
+except ImportError:
+    st.error("""
+    **Required package missing**: scikit-learn is not installed.
+    
+    Please add the following to your requirements.txt file:
+    ```
+    scikit-learn==1.3.2
+    ```
+    """)
+    st.stop()
 
 # Load model and preprocessing data
 try:
@@ -34,7 +49,7 @@ type_name = st.selectbox('Type', pr[type_col].unique()) if type_col else st.erro
 ram_options = [4, 8, 12, 16, 32]
 ram = st.selectbox('RAM (GB)', ram_options)
 
-# Memory selection (this should match the model's expected feature name)
+# Memory selection
 memory_col = 'Memory' if 'Memory' in pr.columns else next((col for col in pr.columns if 'memory' in col.lower()), None)
 memory = st.selectbox('Storage (Memory)', pr[memory_col].unique()) if memory_col else st.error("Memory data missing")
 
@@ -61,7 +76,7 @@ if st.button('Predict Price'):
             'CompanyName': [company],
             'TypeOfLaptop': [type_name],
             'Ram': [ram],
-            'Memory': [memory],  # Corrected from 'Mermory' to 'Memory'
+            'Memory': [memory],
             'Weight': [weight],
             'Touchscreen': [touchscreen],
             'Ips': [ips],
