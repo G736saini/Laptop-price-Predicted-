@@ -86,8 +86,4 @@ if st.button('Predict Price'):
         st.balloons()
 
     except Exception as e:
-<<<<<<< HEAD
         st.error(f"Prediction failed: {str(e)}")
-=======
-        st.error(f"Prediction failed: {str(e)}")
->>>>>>> 2a53729ec51a8dd7c653a38e14a4b4c709d08d70
